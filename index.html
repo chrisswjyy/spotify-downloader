@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spotify Downloader</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #fff;
+      text-align: center;
+      padding: 50px;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      width: 80%;
+      max-width: 500px;
+    }
+    img {
+      width: 200px;
+      margin-top: 20px;
+    }
+    .socials {
+      margin-top: 40px;
+    }
+    .socials a {
+      color: #1DB954;
+      text-decoration: none;
+      display: block;
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Spotify Downloader</h1>
+  <input type="text" id="spotifyUrl" placeholder="Masukkan URL Spotify">
+  <button onclick="downloadSpotify()">Download</button>
+  <div id="result"></div>
+
+  <div class="socials">
+    <h3>Admin:</h3>
+    <a href="https://www.tiktok.com/@ucokfvyk" target="_blank">TikTok: @ucokfvyk</a>
+    <a href="https://www.instagram.com/christwjyy" target="_blank">Instagram: @christwjyy</a>
+  </div>
+
+  <script>
+    async function downloadSpotify() {
+      const url = document.getElementById('spotifyUrl').value;
+      const apiUrl = `https://api.siputzx.my.id/api/d/spotify?url=${encodeURIComponent(url)}`;
+
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        if (data.status) {
+          const info = data.data;
+          document.getElementById('result').innerHTML = `
+            <h2>${info.title} - ${info.artis}</h2>
+            <p>Tipe: ${info.type}</p>
+            <p>Durasi: ${(info.durasi / 1000).toFixed(0)} detik</p>
+            <img src="${info.image}" alt="Album Art">
+            <p><a href="${info.download}" target="_blank">Download MP3</a></p>
+          `;
+        } else {
+          document.getElementById('result').innerHTML = `<p>Gagal mengambil data. Cek URL kamu!</p>`;
+        }
+      } catch (error) {
+        document.getElementById('result').innerHTML = `<p>Terjadi kesalahan saat mengambil data.</p>`;
+      }
+    }
+  </script>
+</body>
+</html>
